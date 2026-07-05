@@ -24,22 +24,10 @@
         }
     </script>
     <style>
-        /* Sleek modern scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 9999px;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-[#0f172a] dark:text-slate-100 min-h-screen flex flex-col font-sans antialiased transition-colors duration-200">
@@ -63,83 +51,39 @@
             <div class="flex items-center gap-3">
                 <div id="statusBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700/60">
                     <span class="w-2 h-2 rounded-full bg-slate-400" id="statusDot"></span>
-                    <span id="statusText">Disconnected</span>
+                    <span id="statusText">Connecting...</span>
                 </div>
 
                 <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all">
-                    <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M6.343 6.343l.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <svg class="w-5 h-5 dark:hidden text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
+                    <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M6.343 6.343l.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    <svg class="w-5 h-5 dark:hidden text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                 </button>
             </div>
         </header>
 
         <main class="flex-1 flex overflow-hidden">
             
-            <section id="sidebarPanel" class="w-80 border-r border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#1e293b]/40 p-5 flex flex-col justify-between overflow-y-auto shrink-0 hidden md:flex transition-all">
-                <div class="space-y-5">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Connection Settings</h2>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-medium text-slate-500 dark:text-slate-400 pl-1">API Security Token</label>
-                            <input type="password" id="githubToken" placeholder="Enter secure network token..." class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0f172a] text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 focus:border-transparent transition-all">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-medium text-slate-500 dark:text-slate-400 pl-1">Server Namespace / Owner</label>
-                            <input type="text" id="repoOwner" placeholder="Namespace identifier" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0f172a] text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 focus:border-transparent transition-all">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-medium text-slate-500 dark:text-slate-400 pl-1">Cluster Hub ID / Repo</label>
-                            <input type="text" id="repoName" placeholder="Hub registry location" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0f172a] text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 focus:border-transparent transition-all">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-medium text-slate-500 dark:text-slate-400 pl-1">Storage Node Path</label>
-                            <input type="text" id="filePath" value="data.json" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0f172a] text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 focus:border-transparent transition-all">
-                        </div>
-                        <div class="space-y-1 border-t border-slate-200 dark:border-slate-800/80 pt-3">
-                            <label class="text-[11px] font-medium text-slate-500 dark:text-slate-400 pl-1">Your Chat Alias</label>
-                            <input type="text" id="username" placeholder="Anonymous Chat User" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0f172a] text-sm font-semibold text-brand-550 dark:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-brand-550 focus:border-transparent transition-all">
-                        </div>
-                    </div>
-                </div>
-
-                <button id="connectBtn" class="w-full bg-brand-550 hover:bg-brand-600 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-all shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 active:scale-[0.99] flex items-center justify-center gap-2 mt-4">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
-                    <span>Connect Server Mesh</span>
-                </button>
-            </section>
+            <section id="sidebarPanel" class="w-80 border-r border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#1e293b]/40 p-5 flex flex-col justify-between overflow-y-auto shrink-0 hidden transition-all">
+                </section>
 
             <section class="flex-1 flex flex-col bg-slate-50 dark:bg-[#0f172a] overflow-hidden">
                 
                 <div class="p-4 border-b border-slate-200 dark:border-slate-800/60 bg-white dark:bg-[#1e293b]/30 flex gap-3 items-center shrink-0">
-                    <button id="mobileConfigToggle" class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 bg-white dark:bg-[#1e293b]">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
-                    </button>
-
                     <div class="relative flex-1 max-w-lg">
                         <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </span>
                         <input type="text" id="searchBar" placeholder="Search messages by keyword or user alias..." class="w-full p-2.5 pl-10 rounded-xl bg-white dark:bg-[#1e293b]/70 border border-slate-200 dark:border-slate-800/80 text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 shadow-sm" disabled>
                     </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-400 font-medium">As:</span>
+                        <input type="text" id="username" value="Guest User" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1e293b] text-xs font-semibold text-brand-550 focus:outline-none w-32">
+                    </div>
                 </div>
 
                 <div id="chatMessages" class="flex-1 p-6 overflow-y-auto space-y-4 flex flex-col bg-gradient-to-b from-slate-50 to-slate-100 dark:from-[#0f172a] dark:to-[#090d16]">
                     <div class="text-center max-w-sm mx-auto my-auto space-y-3">
-                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                        </div>
-                        <h3 class="font-semibold text-slate-700 dark:text-slate-300 text-sm">Welcome to Chat-App</h3>
-                        <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">Provide valid credentials in the settings panel to mount your storage database and open the real-time chat message pipeline.</p>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">Synchronizing pipeline...</p>
                     </div>
                 </div>
 
@@ -157,71 +101,57 @@
     </div>
 
     <script>
+        // ==========================================
+        //  🔒 PASTE YOUR PRIVATE EMBEDDED CONTEXT HERE
+        // ==========================================
+        const CONFIG = {
+            token: "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", // Paste your fine-grained token here
+            owner: "keabi-coder",        // Paste your github username
+            repo: "chat",         // Paste your repository name
+            path: "data.json"                     // Database path target
+        };
+
         let messages = [];
         let fileSha = null;
         let updateInterval = null;
         let timestampInterval = null;
 
-        // Dark/Light Mode Switch Engine Logic
         document.getElementById('themeToggle').addEventListener('click', () => {
             document.documentElement.classList.toggle('dark');
         });
 
-        // Mobile Settings Drawer Toggle Event Map
-        document.getElementById('mobileConfigToggle').addEventListener('click', () => {
-            const sidebar = document.getElementById('sidebarPanel');
-            sidebar.classList.toggle('hidden');
-            sidebar.classList.toggle('absolute');
-            sidebar.classList.toggle('z-40');
-            sidebar.classList.toggle('inset-y-16');
-            sidebar.classList.toggle('left-0');
-            sidebar.classList.toggle('shadow-2xl');
-        });
-
-        // Dynamic Relative Timestamp Parser Model
         function getRelativeTimeString(dateString) {
             const date = new Date(dateString);
             const now = new Date();
             const elapsed = now - date;
-
             const msPerMinute = 60 * 1000;
             const msPerHour = msPerMinute * 60;
             const msPerDay = msPerHour * 24;
 
-            if (elapsed < msPerMinute) {
-                return 'just now';
-            } else if (elapsed < msPerHour) {
+            if (elapsed < msPerMinute) return 'just now';
+            if (elapsed < msPerHour) {
                 const mins = Math.round(elapsed / msPerMinute);
                 return `${mins}m ago`;
-            } else if (elapsed < msPerDay) {
+            }
+            if (elapsed < msPerDay) {
                 const hours = Math.round(elapsed / msPerHour);
                 return `${hours}h ago`;
-            } else {
-                return date.toLocaleDateString(undefined, {month: 'short', day: 'numeric'});
             }
+            return date.toLocaleDateString(undefined, {month: 'short', day: 'numeric'});
         }
 
-        // Downstream Fetch Matrix
         async function fetchMessages() {
-            const token = document.getElementById('githubToken').value;
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const path = document.getElementById('filePath').value;
-
-            if (!token || !owner || !repo || !path) return;
-
-            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+            if (!CONFIG.token || CONFIG.token.includes("YOUR_TOKEN")) return;
+            const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}`;
 
             try {
                 const response = await fetch(url, {
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `token ${CONFIG.token}`,
                         'Accept': 'application/vnd.github.v3+json'
                     }
                 });
-
-                if (!response.ok) throw new Error('Network file structure unmapped');
-
+                if (!response.ok) throw new Error('Unmapped mesh node');
                 const data = await response.json();
                 fileSha = data.sha; 
                 
@@ -238,14 +168,8 @@
             }
         }
 
-        // Upstream Post Pipeline Execution
         async function sendMessage(text) {
-            const token = document.getElementById('githubToken').value;
-            const owner = document.getElementById('repoOwner').value;
-            const repo = document.getElementById('repoName').value;
-            const path = document.getElementById('filePath').value;
-            const user = document.getElementById('username').value || 'Anonymous User';
-
+            const user = document.getElementById('username').value || 'Anonymous';
             if (!text.trim()) return;
 
             const newMessage = {
@@ -255,15 +179,14 @@
                 timestamp: new Date().toISOString()
             };
 
-            // Optimistic Pipeline Injection (Render local buffer immediately for snappiness)
             messages.unshift(newMessage);
             renderMessages();
 
-            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+            const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}`;
             const updatedContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(messages, null, 2))));
 
             const payload = {
-                message: `Update database transaction node state [By ${user}]`,
+                message: `Broadcast packet integration [By ${user}]`,
                 content: updatedContentBase64,
                 sha: fileSha
             };
@@ -272,43 +195,33 @@
                 const response = await fetch(url, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `token ${CONFIG.token}`,
                         'Content-Type': 'application/json',
                         'Accept': 'application/vnd.github.v3+json'
                     },
                     body: JSON.stringify(payload)
                 });
-
-                if (!response.ok) throw new Error('Upstream rejected package block');
-
+                if (!response.ok) throw new Error('Upstream write fail');
                 const resData = await response.json();
                 fileSha = resData.content.sha; 
             } catch (error) {
-                console.error("Upstream synchronization conflict detected. Flushing.", error);
                 fetchMessages();
             }
         }
 
-        // Component Rendering Matrix with Dynamic Sorting Rules (Newest First)
         function renderMessages() {
             const container = document.getElementById('chatMessages');
             const searchQuery = document.getElementById('searchBar').value.toLowerCase();
-            const currentUser = document.getElementById('username').value || 'Anonymous User';
+            const currentUser = document.getElementById('username').value || 'Anonymous';
             
-            // Case-insensitive filtering mapping evaluation
             const filteredMessages = messages.filter(msg => {
-                return msg.user.toLowerCase().includes(searchQuery) || 
-                       msg.text.toLowerCase().includes(searchQuery);
+                return msg.user.toLowerCase().includes(searchQuery) || msg.text.toLowerCase().includes(searchQuery);
             });
 
-            // Absolute Sort Architecture: Newest messages appear first
             filteredMessages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
             if (filteredMessages.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center max-w-xs mx-auto my-auto space-y-2">
-                        <p class="text-sm font-medium text-slate-400 dark:text-slate-600">No matching text records found.</p>
-                    </div>`;
+                container.innerHTML = `<div class="text-center my-auto text-sm text-slate-400 dark:text-slate-600">No logs found.</div>`;
                 return;
             }
 
@@ -317,84 +230,52 @@
                 return `
                 <div class="flex flex-col gap-1 max-w-[80%] ${isMe ? 'self-end items-end' : 'self-start items-start'} group transition-all duration-200">
                     <div class="flex items-center gap-2 px-1">
-                        <span class="text-xs font-bold tracking-wide ${isMe ? 'text-indigo-500 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-400'}">${escapeHTML(msg.user)}</span>
-                        <span class="text-[10px] font-medium text-slate-400 dark:text-slate-500 data-timestamp" data-time="${msg.timestamp}">
-                            ${getRelativeTimeString(msg.timestamp)}
-                        </span>
+                        <span class="text-xs font-bold tracking-wide ${isMe ? 'text-indigo-500' : 'text-slate-500'}">${escapeHTML(msg.user)}</span>
+                        <span class="text-[10px] text-slate-400 data-timestamp" data-time="${msg.timestamp}">${getRelativeTimeString(msg.timestamp)}</span>
                     </div>
-                    <div class="p-3.5 rounded-2xl text-sm border shadow-sm transition-all duration-150 leading-relaxed ${
-                        isMe 
-                        ? 'bg-brand-550 text-white border-transparent rounded-tr-none' 
-                        : 'bg-white dark:bg-[#1e293b] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800/80 rounded-tl-none'
+                    <div class="p-3.5 rounded-2xl text-sm border shadow-sm ${
+                        isMe ? 'bg-brand-550 text-white border-transparent rounded-tr-none' : 'bg-white dark:bg-[#1e293b] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800/80 rounded-tl-none'
                     }">
                         <p class="whitespace-pre-wrap break-words">${escapeHTML(msg.text)}</p>
                     </div>
-                </div>
-            `}).join('');
+                </div>`
+            }).join('');
         }
 
-        // Live Dynamic String Evaluator (Updates string elements without causing heavy layout repaints)
         function updateTimestamps() {
             document.querySelectorAll('.data-timestamp').forEach(el => {
-                const timeStr = el.getAttribute('data-time');
-                el.textContent = getRelativeTimeString(timeStr);
+                el.textContent = getRelativeTimeString(el.getAttribute('data-time'));
             });
         }
 
-        // Global Dynamic Connectivity Status Visual Badge Control
         function updateStatusBadge(connected) {
             const dot = document.getElementById('statusDot');
             const text = document.getElementById('statusText');
-            if (connected) {
-                dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
-                text.textContent = "Server Active";
-            } else {
-                dot.className = "w-2 h-2 rounded-full bg-rose-500";
-                text.textContent = "Pipeline Error";
-            }
+            dot.className = connected ? "w-2 h-2 rounded-full bg-emerald-500 animate-pulse" : "w-2 h-2 rounded-full bg-rose-500";
+            text.textContent = connected ? "Server Connected" : "Network Blocked";
         }
 
-        // Cross-Site Scripting (XSS) Mitigation Shield
         function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
-        // App Mounting Framework Hook Operations
-        document.getElementById('connectBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('connectBtn');
-            btn.disabled = true;
-            btn.innerHTML = `<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mounting Grid...`;
-
+        // Auto-mount stream loop engine on runtime start
+        window.addEventListener('DOMContentLoaded', async () => {
             await fetchMessages();
-
-            if (fileSha) {
+            if(fileSha) {
                 document.getElementById('searchBar').removeAttribute('disabled');
                 document.getElementById('chatForm').style.display = 'flex';
-                
-                // Keep file fetching execution loops active every 8 seconds
-                clearInterval(updateInterval);
                 updateInterval = setInterval(fetchMessages, 8000);
-
-                // Run timestamp modifier strings loop intervals every 20 seconds
-                clearInterval(timestampInterval);
                 timestampInterval = setInterval(updateTimestamps, 20000);
-            } else {
-                updateStatusBadge(false);
             }
-            btn.disabled = false;
-            btn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg> <span>Session Mounted</span>`;
         });
 
         document.getElementById('searchBar').addEventListener('input', renderMessages);
-
         document.getElementById('chatForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('messageInput');
             const text = input.value;
             if (!text.trim()) return;
-
             input.value = '';
             await sendMessage(text);
         });
