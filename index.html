@@ -49,23 +49,19 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <div id="statusBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700/50">
+                <div id="statusBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700/60">
                     <span class="w-2 h-2 rounded-full bg-slate-400" id="statusDot"></span>
                     <span id="statusText">Connecting...</span>
                 </div>
 
-                <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700/60">
-                    <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.3 15.3A9 9 0 118.7 3.7 7 7 0 0020.3 15.3z"/></svg>
-                    <svg class="w-5 h-5 dark:hidden text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.3 15.3A9 9 0 118.7 3.7 7 7 0 0020.3 15.3z"/></svg>
+                <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all">
+                    <svg class="w-5 h-5 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M6.343 6.343l.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    <svg class="w-5 h-5 dark:hidden text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                 </button>
             </div>
         </header>
 
         <main class="flex-1 flex overflow-hidden">
-            
-            <section id="sidebarPanel" class="w-80 border-r border-slate-200 dark:border-slate-800/80 bg-white dark:bg-[#1e293b]/40 p-5 flex flex-col justify-between overflow-y-auto shrink-0 hidden">
-            </section>
-
             <section class="flex-1 flex flex-col bg-slate-50 dark:bg-[#0f172a] overflow-hidden">
                 
                 <div class="p-4 border-b border-slate-200 dark:border-slate-800/60 bg-white dark:bg-[#1e293b]/30 flex gap-3 items-center shrink-0">
@@ -73,26 +69,27 @@
                         <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </span>
-                        <input type="text" id="searchBar" placeholder="Search messages by keyword or user alias..." class="w-full p-2.5 pl-10 rounded-xl bg-white dark:bg-[#1e293b]/70 border border-slate-200 dark:border-slate-800 text-sm" disabled>
+                        <input type="text" id="searchBar" placeholder="Search messages by keyword or user alias..." class="w-full p-2.5 pl-10 rounded-xl bg-white dark:bg-[#1e293b]/70 border border-slate-200 dark:border-slate-800/80 text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 shadow-sm" disabled>
                     </div>
+                    
                     <div class="flex items-center gap-2">
-                        <span class="text-xs text-slate-400 font-medium">As:</span>
-                        <input type="text" id="username" value="Guest User" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1e293b] text-xs font-semibold text-slate-700 dark:text-slate-200">
+                        <span class="text-xs text-slate-400 font-medium">Chat As:</span>
+                        <input type="text" id="username" value="Guest User" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1e293b] text-xs font-semibold text-brand-550 focus:outline-none w-32">
                     </div>
                 </div>
 
                 <div id="chatMessages" class="flex-1 p-6 overflow-y-auto space-y-4 flex flex-col bg-gradient-to-b from-slate-50 to-slate-100 dark:from-[#0f172a] dark:to-[#090d16]">
                     <div class="text-center max-w-sm mx-auto my-auto space-y-3">
-                        <p class="text-xs text-slate-400 dark:text-slate-500">Synchronizing pipeline...</p>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">Synchronizing stream pipeline...</p>
                     </div>
                 </div>
 
                 <div class="border-t border-slate-200 dark:border-slate-800/80 p-4 bg-white dark:bg-[#1e293b]/30 shrink-0">
                     <form id="chatForm" class="max-w-4xl mx-auto flex gap-3" style="display: none;">
-                        <input type="text" id="messageInput" placeholder="Type a message, press enter to broadcast..." autocomplete="off" class="flex-1 p-3 rounded-xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 text-sm">
-                        <button type="submit" id="sendBtn" class="bg-brand-550 hover:bg-brand-600 text-white px-5 rounded-xl text-sm font-semibold transition-all shadow-md shadow-indigo-600/10 flex items-center gap-2">
+                        <input type="text" id="messageInput" placeholder="Type a message, press enter to broadcast..." autocomplete="off" class="flex-1 p-3 rounded-xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-550 shadow-inner placeholder:text-slate-400 dark:placeholder:text-slate-600">
+                        <button type="submit" id="sendBtn" class="bg-brand-550 hover:bg-brand-600 text-white px-5 rounded-xl text-sm font-semibold transition-all shadow-md shadow-indigo-600/10 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
                             <span>Send</span>
-                            <svg class="w-4 h-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l7-7-7-7v14z"/></svg>
+                            <svg class="w-4 h-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                         </button>
                     </form>
                 </div>
@@ -102,15 +99,13 @@
 
     <script>
         // ==========================================
-        //  🔒 NOTE: Do NOT commit a real personal access token into source.
-        //  This file previously contained a hard-coded PAT which is a security risk.
-        //  Set CONFIG.token at runtime (e.g., injected by server-side template) or paste it locally for development.
+        //  🔒 CONFIGURATION KEYS INSIDE THE CODE
         // ==========================================
         const CONFIG = {
-            token: "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", // <-- replace with your fine-grained token locally; keep this placeholder in the repo
-            owner: "keabi-coder",        // Paste your github username
-            repo: "chat",         // Paste your repository name
-            path: "data.json"                     // Database path target
+            token: "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",       // Paste your fine-grained GitHub token here
+            owner: "keabi-coder", // Paste your GitHub username here
+            repo: "chat",  // Paste your storage repository name here
+            path: "data.json"              // Target JSON storage file name
         };
 
         let messages = [];
@@ -143,21 +138,29 @@
         }
 
         async function fetchMessages() {
-            // allow unauthenticated reads (for public repos) and authenticated when token provided
-            const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}`;
-
-            const headers = { 'Accept': 'application/vnd.github.v3+json' };
-            if (CONFIG.token && !CONFIG.token.includes('YOUR_TOKEN')) {
-                headers['Authorization'] = `token ${CONFIG.token}`;
+            if (!CONFIG.token || CONFIG.token.includes("YOUR_TOKEN")) {
+                document.getElementById('chatMessages').innerHTML = `
+                    <div class="text-center max-w-sm mx-auto my-auto text-rose-500 text-sm font-semibold">
+                        Configuration Required: Open index.html and update the CONFIG block with your actual tokens.
+                    </div>`;
+                updateStatusBadge(false);
+                return;
             }
 
+            const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}`;
+
             try {
-                const response = await fetch(url, { headers });
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `token ${CONFIG.token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
                 if (!response.ok) throw new Error('Unmapped mesh node');
                 const data = await response.json();
-                fileSha = data.sha;
-
-                const decodedContent = decodeURIComponent(atob(data.content.replace(/\n/g, '')).split('').map(function(c) {
+                fileSha = data.sha; 
+                
+                const decodedContent = decodeURIComponent(atob(data.content).split('').map(function(c) {
                     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                 }).join(''));
 
@@ -165,7 +168,7 @@
                 renderMessages();
                 updateStatusBadge(true);
             } catch (error) {
-                console.error("Downstream stream block error:", error);
+                console.error("Downstream link error:", error);
                 updateStatusBadge(false);
             }
         }
@@ -174,13 +177,6 @@
             const user = document.getElementById('username').value || 'Anonymous';
             if (!text.trim()) return;
 
-            if (!CONFIG.token || CONFIG.token.includes('YOUR_TOKEN')) {
-                // No token configured — can't write to the GitHub API from the browser.
-                console.error('No GitHub token configured. Unable to send message.');
-                alert('Send blocked: no GitHub token configured. Add a token to CONFIG.token for write access.');
-                return;
-            }
-
             const newMessage = {
                 id: Date.now().toString(),
                 user: user,
@@ -188,6 +184,7 @@
                 timestamp: new Date().toISOString()
             };
 
+            // Optimistic Update (Renders locally instantly)
             messages.unshift(newMessage);
             renderMessages();
 
@@ -195,7 +192,7 @@
             const updatedContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(messages, null, 2))));
 
             const payload = {
-                message: `Broadcast packet integration [By ${user}]`,
+                message: `Chat packet upload [By ${user}]`,
                 content: updatedContentBase64,
                 sha: fileSha
             };
@@ -210,11 +207,10 @@
                     },
                     body: JSON.stringify(payload)
                 });
-                if (!response.ok) throw new Error('Upstream write fail');
+                if (!response.ok) throw new Error('Upstream rejected package block');
                 const resData = await response.json();
-                fileSha = resData.content.sha;
+                fileSha = resData.content.sha; 
             } catch (error) {
-                // refresh from server on write failure
                 fetchMessages();
             }
         }
@@ -225,9 +221,10 @@
             const currentUser = document.getElementById('username').value || 'Anonymous';
             
             const filteredMessages = messages.filter(msg => {
-                return (msg.user && msg.user.toLowerCase().includes(searchQuery)) || (msg.text && msg.text.toLowerCase().includes(searchQuery));
+                return msg.user.toLowerCase().includes(searchQuery) || msg.text.toLowerCase().includes(searchQuery);
             });
 
+            // Newest first sorting rule
             filteredMessages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
             if (filteredMessages.length === 0) {
@@ -240,13 +237,13 @@
                 return `
                 <div class="flex flex-col gap-1 max-w-[80%] ${isMe ? 'self-end items-end' : 'self-start items-start'} group transition-all duration-200">
                     <div class="flex items-center gap-2 px-1">
-                        <span class="text-xs font-bold tracking-wide ${isMe ? 'text-indigo-500' : 'text-slate-500'}">${escapeHTML(msg.user || 'Anonymous')}</span>
+                        <span class="text-xs font-bold tracking-wide ${isMe ? 'text-indigo-500' : 'text-slate-500'}">${escapeHTML(msg.user)}</span>
                         <span class="text-[10px] text-slate-400 data-timestamp" data-time="${msg.timestamp}">${getRelativeTimeString(msg.timestamp)}</span>
                     </div>
                     <div class="p-3.5 rounded-2xl text-sm border shadow-sm ${
-                        isMe ? 'bg-brand-550 text-white border-transparent rounded-tr-none' : 'bg-white dark:bg-[#1e293b] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800/80'
+                        isMe ? 'bg-brand-550 text-white border-transparent rounded-tr-none' : 'bg-white dark:bg-[#1e293b] text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-800/80 rounded-tl-none'
                     }">
-                        <p class="whitespace-pre-wrap break-words">${escapeHTML(msg.text || '')}</p>
+                        <p class="whitespace-pre-wrap break-words">${escapeHTML(msg.text)}</p>
                     </div>
                 </div>`
             }).join('');
@@ -262,22 +259,21 @@
             const dot = document.getElementById('statusDot');
             const text = document.getElementById('statusText');
             dot.className = connected ? "w-2 h-2 rounded-full bg-emerald-500 animate-pulse" : "w-2 h-2 rounded-full bg-rose-500";
-            text.textContent = connected ? "Server Connected" : "Network Blocked";
+            text.textContent = connected ? "Active" : "Offline";
         }
 
         function escapeHTML(str) {
-            if (!str) return '';
-            return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
-        // Auto-mount stream loop engine on runtime start
+        // Auto-mount connection sequence on initialization load
         window.addEventListener('DOMContentLoaded', async () => {
             await fetchMessages();
             if(fileSha) {
                 document.getElementById('searchBar').removeAttribute('disabled');
                 document.getElementById('chatForm').style.display = 'flex';
-                updateInterval = setInterval(fetchMessages, 8000);
-                timestampInterval = setInterval(updateTimestamps, 20000);
+                updateInterval = setInterval(fetchMessages, 8000); // Polling interval
+                timestampInterval = setInterval(updateTimestamps, 20000); // UI relative clock tracker
             }
         });
 
