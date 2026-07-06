@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Live Chat</title>
+    <title>APSS GREEN WORLD</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-main: #f8fafc;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-main: #f1f5f9;
             --bg-card: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --sent-msg: #4f46e5;
-            --received-msg: #f1f5f9;
+            --sent-msg: #6366f1;
+            --received-msg: #f8fafc;
         }
 
+        * { box-sizing: border-box; }
+
         body { 
-            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             margin: 0; 
             background: var(--bg-main); 
             color: var(--text-main);
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
-            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
         }
 
         /* ----- LOGIN SCREEN ----- */
@@ -35,77 +37,59 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 999; opacity: 1; visibility: visible;
             transition: opacity 0.3s ease, visibility 0.3s;
         }
         .login-card {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+            background: var(--bg-card); padding: 40px; border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 90%; max-width: 400px; text-align: center;
         }
-        .login-card h2 { margin-top: 0; margin-bottom: 8px; font-weight: 700; font-size: 24px; }
-        .login-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+        .login-card h2 { margin-top: 0; margin-bottom: 8px; font-weight: 700; }
         .login-input {
             width: 100%; padding: 12px 16px; border: 1px solid var(--border);
-            border-radius: 8px; font-size: 16px; outline: none; transition: border 0.2s;
-            box-sizing: border-box; margin-bottom: 16px;
+            border-radius: 8px; font-size: 16px; outline: none; margin-bottom: 16px;
         }
-        .login-input:focus { border-color: var(--primary); }
         .login-btn {
             width: 100%; padding: 12px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; font-size: 16px; font-weight: 600;
-            cursor: pointer; transition: background 0.2s;
+            border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
         }
-        .login-btn:hover { background: var(--primary-hover); }
 
-        /* ----- MAIN CHAT INTERFACE ----- */
+        /* ----- MAIN CHAT WRAPPER ----- */
         #chat-container { 
-            width: 1000px; 
-            max-width: 95vw;
-            height: 750px; 
-            max-height: 90vh;
-            background: var(--bg-card); 
-            border-radius: 16px; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
-            display: flex; 
-            overflow: hidden; 
-            border: 1px solid var(--border);
+            width: 1100px; max-width: 100vw; height: 100vh;
+            background: var(--bg-card); display: flex; overflow: hidden; 
         }
 
-        /* Sidebar Styling */
+        @media (min-width: 768px) {
+            #chat-container { height: 85vh; max-height: 800px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        }
+
+        /* Sidebar View */
         .sidebar {
-            width: 280px;
-            background: #fdfdfd;
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
+            width: 300px; background: #fff; border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; transition: all 0.3s ease;
         }
         .search-box-wrapper { padding: 16px; border-bottom: 1px solid var(--border); }
         .search-input {
-            width: 100%; padding: 8px 12px; border: 1px solid var(--border);
-            border-radius: 8px; font-size: 14px; outline: none; background: #f8fafc;
-            box-sizing: border-box;
+            width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+            border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc;
         }
-        .user-list-wrapper { flex: 1; overflow-y: auto; padding: 10px; }
+        .user-list-wrapper { flex: 1; overflow-y: auto; padding: 8px; }
+        
         .user-item {
-            display: flex; align-items: center; padding: 10px; 
-            border-radius: 8px; margin-bottom: 4px; font-size: 14px; font-weight: 500;
-            color: var(--text-main); transition: background 0.2s;
+            display: flex; align-items: center; padding: 12px; border-radius: 10px;
+            margin-bottom: 4px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;
         }
+        .user-item:hover { background: var(--bg-main); }
+        .user-item.active { background: #e0e7ff; color: var(--primary); }
         .user-avatar {
-            width: 32px; height: 32px; border-radius: 50%; background: #e2e8f0;
+            width: 36px; height: 36px; border-radius: 50%; background: #e2e8f0;
             display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: var(--primary); margin-right: 12px; font-size: 12px;
+            font-weight: bold; color: var(--primary); margin-right: 12px;
         }
 
-        /* Chat Window Area */
+        /* Main Dynamic Frame */
         .chat-main { flex: 1; display: flex; flex-direction: column; background: #fafafa; }
         .chat-header {
             padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--bg-card);
@@ -113,66 +97,65 @@
         }
         .chat-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
         
-        #chat-window { 
-            flex: 1; padding: 24px; overflow-y: auto; 
-            display: flex; flex-direction: column; gap: 16px; 
+        /* Reset Filter Button */
+        .filter-badge {
+            background: #e0e7ff; color: var(--primary); padding: 4px 10px; 
+            border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: none;
         }
 
-        /* Messages */
-        .message-wrapper { display: flex; flex-direction: column; max-width: 70%; }
+        #chat-window { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+
+        /* Messages Setup */
+        .message-wrapper { display: flex; flex-direction: column; max-width: 75%; }
         .message-wrapper.sent { align-self: flex-end; align-items: flex-end; }
         .message-wrapper.received { align-self: flex-start; align-items: flex-start; }
 
-        .msg-username { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
-        .message { padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+        .msg-username { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+        .message { padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
         
         .sent .message { background: var(--sent-msg); color: white; border-bottom-right-radius: 2px; }
-        .received .message { background: var(--received-msg); color: var(--text-main); border-bottom-left-radius: 2px; }
+        .received .message { background: var(--received-msg); color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid var(--border); }
 
-        /* Input Bar */
-        #input-area { 
-            display: flex; border-top: 1px solid var(--border); 
-            padding: 16px 24px; background: var(--bg-card); 
-            align-items: center;
-        }
-        #user-input { 
-            flex: 1; padding: 12px 18px; border: 1px solid var(--border); 
-            border-radius: 24px; outline: none; font-size: 14px; background: #f8fafc;
-        }
+        /* Actions area */
+        #input-area { display: flex; border-top: 1px solid var(--border); padding: 16px; background: var(--bg-card); align-items: center; }
+        #user-input { flex: 1; padding: 14px 20px; border: 1px solid var(--border); border-radius: 24px; outline: none; font-size: 14px; background: #f8fafc; }
         #user-input:focus { border-color: var(--primary); background: #fff; }
-        #send-btn { 
-            padding: 12px 24px; background: var(--primary); color: white; 
-            border: none; border-radius: 24px; margin-left: 12px; 
-            cursor: pointer; font-weight: 600; font-size: 14px; transition: background 0.2s;
+        #send-btn { padding: 12px 24px; background: var(--primary); color: white; border: none; border-radius: 24px; margin-left: 12px; cursor: pointer; font-weight: 600; }
+
+        /* Mobile View Responsive System toggle */
+        .menu-toggle { display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-main); }
+        
+        @media (max-width: 767px) {
+            .menu-toggle { display: block; }
+            .sidebar { position: fixed; left: -300px; top: 0; bottom: 0; z-index: 50; width: 260px; box-shadow: 10px 0 15px rgba(0,0,0,0.05); }
+            .sidebar.open { left: 0; }
         }
-        #send-btn:hover { background: var(--primary-hover); }
-</style>
+    </style>
 </head>
 <body>
 
     <div id="login-overlay">
         <div class="login-card">
-            <h2>Welcome</h2>
-            <p>Please enter your name to join the live workspace room.</p>
+            <h2>Welcome Back</h2>
+            <p>Pick a custom workspace alias handle to join the dynamic timeline.</p>
             <input type="text" id="username-input" class="login-input" placeholder="Your Name" autocomplete="off" maxlength="20">
             <button id="join-btn" class="login-btn">Join Chatroom</button>
         </div>
     </div>
 
     <div id="chat-container">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar-menu">
             <div class="search-box-wrapper">
-                <input type="text" id="search-users" class="search-input" placeholder="Search users by name...">
+                <input type="text" id="search-users" class="search-input" placeholder="Search user history...">
             </div>
-            <div class="user-list-wrapper" id="user-list">
-                </div>
+            <div class="user-list-wrapper" id="user-list"></div>
         </div>
 
         <div class="chat-main">
             <div class="chat-header">
-                <div>
-                    <h3 id="room-title"># global-workspace</h3>
-                </div>
+                <button class="menu-toggle" id="menu-btn">☰</button>
+                <h3 id="room-title"># global-timeline</h3>
+                <span class="filter-badge" id="clear-filter-btn">Show All Messages</span>
             </div>
             <div id="chat-window"></div>
             <div id="input-area">
@@ -186,21 +169,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-        // 1. Paste Your Specific App Configuration Keys Here
-
       const firebaseConfig = {
         apiKey: "AIzaSyCDEwEwr6QbNIArFm4sGThxq4scpqDbbnE",
         databaseURL: "https://keabi-800a6-default-rtdb.firebaseio.com",
         projectId: "keabi-800a6",
       };
 
-
-        // Initialize App Connection Instance 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         const messagesRef = database.ref('messages');
 
-        // Document Object Cache Mapping
         const loginOverlay = document.getElementById('login-overlay');
         const usernameInput = document.getElementById('username-input');
         const joinBtn = document.getElementById('join-btn');
@@ -209,16 +187,34 @@
         const sendBtn = document.getElementById('send-btn');
         const searchUsers = document.getElementById('search-users');
         const userListContainer = document.getElementById('user-list');
+        const roomTitle = document.getElementById('room-title');
+        const clearFilterBtn = document.getElementById('clear-filter-btn');
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebarMenu = document.getElementById('sidebar-menu');
 
         let myUsername = "";
         let trackedUsersSet = new Set(); 
+        let allMessagesArray = []; 
+        let selectedUserFilter = ""; // Tracks filtering by clicked user
 
-        // Handshake Overlay Lifecycle Control
+        // Check LocalStorage on boot to skip prompt if match exists
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('chat_username');
+            if(savedName) {
+                myUsername = savedName;
+                loginOverlay.style.opacity = '0';
+                loginOverlay.style.visibility = 'hidden';
+                userInput.focus();
+            }
+        });
+
         function processJoin() {
             const nameValue = usernameInput.value.trim();
             if(!nameValue) return alert("Name field cannot be left blank.");
             
             myUsername = nameValue;
+            localStorage.setItem('chat_username', nameValue); // Set memory token
+            
             loginOverlay.style.opacity = '0';
             setTimeout(() => loginOverlay.style.visibility = 'hidden', 300);
             userInput.focus();
@@ -227,31 +223,40 @@
         joinBtn.addEventListener('click', processJoin);
         usernameInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') processJoin(); });
 
-        // Build UI element for an incoming message
-        function appendMessage(text, senderName) {
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('message-wrapper');
-            
-            if (senderName === myUsername) {
-                wrapper.classList.add('sent');
-                wrapper.innerHTML = `<div class="message">${escapeHTML(text)}</div>`;
-            } else {
-                wrapper.classList.add('received');
-                wrapper.innerHTML = `
-                    <span class="msg-username">${escapeHTML(senderName)}</span>
-                    <div class="message">${escapeHTML(text)}</div>
-                `;
-            }
+        // Responsive Sidebar Drawer Toggle for Mobile
+        menuBtn.addEventListener('click', () => sidebarMenu.classList.toggle('open'));
 
-            chatWindow.appendChild(wrapper);
+        // Core visual calculation router
+        function renderChatWindow() {
+            chatWindow.innerHTML = "";
+            allMessagesArray.sort((a, b) => a.timestamp - b.timestamp);
+
+            allMessagesArray.forEach(data => {
+                // If a filter is active, skip all other users' messages
+                if (selectedUserFilter && data.username.toLowerCase() !== selectedUserFilter.toLowerCase()) return;
+
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('message-wrapper');
+                
+                if (data.username === myUsername) {
+                    wrapper.classList.add('sent');
+                    wrapper.innerHTML = `<div class="message">${escapeHTML(data.text)}</div>`;
+                } else {
+                    wrapper.classList.add('received');
+                    wrapper.innerHTML = `
+                        <span class="msg-username">${escapeHTML(data.username)}</span>
+                        <div class="message">${escapeHTML(data.text)}</div>
+                    `;
+                }
+                chatWindow.appendChild(wrapper);
+            });
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
-        // Maintain and redraw sidebar user logs dynamically
         function updateSidebarUserTracking(newName) {
             if(!newName || trackedUsersSet.has(newName)) return;
             trackedUsersSet.add(newName);
-            renderUserList();
+            renderUserList(searchUsers.value);
         }
 
         function renderUserList(filterText = "") {
@@ -259,29 +264,56 @@
             const cleanFilter = filterText.toLowerCase().trim();
 
             trackedUsersSet.forEach(user => {
-                // Case-insensitive query check
                 if(cleanFilter && !user.toLowerCase().includes(cleanFilter)) return;
 
                 const userRow = document.createElement('div');
                 userRow.classList.add('user-item');
+                if (selectedUserFilter && user.toLowerCase() === selectedUserFilter.toLowerCase()) {
+                    userRow.classList.add('active');
+                }
+                
                 userRow.innerHTML = `
                     <div class="user-avatar">${user.charAt(0).toUpperCase()}</div>
                     <span>${escapeHTML(user)}</span>
                 `;
+
+                // Handle selecting user from list to look up specific messages
+                userRow.addEventListener('click', () => {
+                    selectedUserFilter = user;
+                    roomTitle.textContent = `Viewing: @${user}`;
+                    clearFilterBtn.style.display = 'block';
+                    sidebarMenu.classList.remove('open'); // close on mobile drawer view
+                    renderUserList(searchUsers.value);
+                    renderChatWindow();
+                });
+
                 userListContainer.appendChild(userRow);
             });
         }
 
-        // Realtime Fetch Pipeline Hook
-        messagesRef.limitToLast(100).on('child_added', (snapshot) => {
+        // Reset Filter View Action Handler
+        clearFilterBtn.addEventListener('click', () => {
+            selectedUserFilter = "";
+            roomTitle.textContent = "# global-timeline";
+            clearFilterBtn.style.display = 'none';
+            renderUserList(searchUsers.value);
+            renderChatWindow();
+        });
+
+        // Firebase Sync Engine Pipe Hooks
+        messagesRef.limitToLast(150).on('child_added', (snapshot) => {
             const data = snapshot.val();
             if(data && data.username && data.text) {
                 updateSidebarUserTracking(data.username);
-                appendMessage(data.text, data.username);
+                allMessagesArray.push({
+                    username: data.username,
+                    text: data.text,
+                    timestamp: data.timestamp || Date.now()
+                });
+                renderChatWindow();
             }
         });
 
-        // Outbound Push Dispatch
         function sendMessage() {
             const text = userInput.value.trim();
             if (!text || !myUsername) return;
@@ -291,42 +323,16 @@
                 text: text,
                 timestamp: Date.now()
             });
-
             userInput.value = '';
         }
 
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+        searchUsers.addEventListener('input', (e) => renderUserList(e.target.value));
 
-        // Search Bar Event Hook (Case-Insensitive Input Lookup)
-        searchUsers.addEventListener('input', (e) => {
-            renderUserList(e.target.value);
-        });
-
-        // XSS Prevention helper
         function escapeHTML(str) {
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
