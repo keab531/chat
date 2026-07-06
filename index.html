@@ -3,132 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APSS GREEN WORLD</title>
+    <title>APSS GREEN CHAT</title>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg-main: #f1f5f9;
-            --bg-card: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --sent-msg: #6366f1;
-            --received-msg: #f8fafc;
+            --tg-bg: #e7ebf0;
+            --tg-sidebar-bg: #ffffff;
+            --tg-primary: #3390ec;
+            --tg-primary-hover: #297cca;
+            --tg-my-bubble: #eeffde;
+            --tg-other-bubble: #ffffff;
+            --tg-text: #000000;
+            --tg-text-muted: #707579;
+            --tg-border: #e4e4e4;
+            --tg-input-bg: #f1f5f9;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body { 
-            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            margin: 0; 
-            background: var(--bg-main); 
-            color: var(--text-main);
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--tg-bg);
+            color: var(--tg-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             width: 100vw;
+            overflow: hidden;
         }
 
-        /* ----- LOGIN SCREEN ----- */
+        /* ----- TELEGRAM INITIAL SIGN-IN OVERLAY ----- */
         #login-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center;
+            background: #ffffff;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 999; opacity: 1; visibility: visible;
-            transition: opacity 0.3s ease, visibility 0.3s;
+            transition: opacity 0.25s ease, visibility 0.25s;
         }
         .login-card {
-            background: var(--bg-card); padding: 40px; border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); width: 90%; max-width: 400px; text-align: center;
+            width: 100%; max-width: 360px; text-align: center; padding: 20px;
         }
-        .login-card h2 { margin-top: 0; margin-bottom: 8px; font-weight: 700; }
+        .login-logo {
+            width: 100px; height: 100px; background: var(--tg-primary); border-radius: 50%;
+            margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;
+        }
+        .login-logo svg { width: 50px; height: 50px; fill: white; margin-left: -4px; }
+        .login-card h2 { font-size: 26px; font-weight: 500; margin-bottom: 12px; }
+        .login-card p { color: var(--tg-text-muted); font-size: 15px; margin-bottom: 32px; line-height: 1.4; }
         .login-input {
-            width: 100%; padding: 12px 16px; border: 1px solid var(--border);
-            border-radius: 8px; font-size: 16px; outline: none; margin-bottom: 16px;
+            width: 100%; padding: 14px 16px; border: 1px solid var(--tg-border);
+            border-radius: 12px; font-size: 16px; outline: none; margin-bottom: 20px; transition: border 0.2s;
         }
+        .login-input:focus { border-color: var(--tg-primary); }
         .login-btn {
-            width: 100%; padding: 12px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
+            width: 100%; padding: 14px; background: var(--tg-primary); color: white;
+            border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.15s;
+        }
+        .login-btn:hover { background: var(--tg-primary-hover); }
+
+        /* ----- MAIN TELEGRAM APPARATUS ----- */
+        #tg-layout {
+            width: 100%; height: 100%; display: flex; background: #ffffff; max-width: 1680px;
         }
 
-        /* ----- MAIN CHAT WRAPPER ----- */
-        #chat-container { 
-            width: 1100px; max-width: 100vw; height: 100vh;
-            background: var(--bg-card); display: flex; overflow: hidden; 
+        @media (min-width: 1200px) {
+            #tg-layout {
+                height: 92vh; max-height: 900px; width: 90vw; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden;
+            }
         }
 
-        @media (min-width: 768px) {
-            #chat-container { height: 85vh; max-height: 800px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        }
-
-        /* Sidebar View */
+        /* Sidebar: Contacts/Users List */
         .sidebar {
-            width: 300px; background: #fff; border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; transition: all 0.3s ease;
+            width: 340px; min-width: 340px; background: var(--tg-sidebar-bg); border-right: 1px solid var(--tg-border);
+            display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
         }
-        .search-box-wrapper { padding: 16px; border-bottom: 1px solid var(--border); }
+        .search-bar-container { padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
         .search-input {
-            width: 100%; padding: 10px 14px; border: 1px solid var(--border);
-            border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc;
+            flex: 1; padding: 10px 16px; border: 1px solid transparent; border-radius: 22px;
+            font-size: 14px; outline: none; background: #f1f1f1; transition: background 0.2s, border 0.2s;
         }
-        .user-list-wrapper { flex: 1; overflow-y: auto; padding: 8px; }
+        .search-input:focus { background: #ffffff; border-color: var(--tg-primary); }
+        .user-list { flex: 1; overflow-y: auto; }
         
         .user-item {
-            display: flex; align-items: center; padding: 12px; border-radius: 10px;
-            margin-bottom: 4px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; padding: 10px 16px; cursor: pointer; transition: background 0.1s;
         }
-        .user-item:hover { background: var(--bg-main); }
-        .user-item.active { background: #e0e7ff; color: var(--primary); }
+        .user-item:hover { background: #f4f4f5; }
+        .user-item.active { background: var(--tg-primary); color: white; }
         .user-avatar {
-            width: 36px; height: 36px; border-radius: 50%; background: #e2e8f0;
+            width: 48px; height: 48px; border-radius: 50%; background: #55aaff;
             display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: var(--primary); margin-right: 12px;
+            font-weight: bold; color: white; margin-right: 14px; font-size: 16px; user-select: none;
         }
+        .user-info { display: flex; flex-direction: column; }
+        .user-info .name { font-size: 15px; font-weight: 500; }
+        .user-info .subtext { font-size: 13px; color: var(--tg-text-muted); margin-top: 2px; }
+        .user-item.active .user-info .subtext { color: #e1efff; }
 
-        /* Main Dynamic Frame */
-        .chat-main { flex: 1; display: flex; flex-direction: column; background: #fafafa; }
+        /* Main Chat Window Panel */
+        .chat-view { flex: 1; display: flex; flex-direction: column; background: #f4f4f5 url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png') repeat; }
+        
         .chat-header {
-            padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--bg-card);
-            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 24px; background: #ffffff; border-bottom: 1px solid var(--tg-border);
+            display: flex; align-items: center; gap: 16px; height: 56px;
         }
-        .chat-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
-        
-        /* Reset Filter Button */
-        .filter-badge {
-            background: #e0e7ff; color: var(--primary); padding: 4px 10px; 
-            border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: none;
+        .menu-toggle { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--tg-text-muted); }
+        .header-info h3 { font-size: 16px; font-weight: 500; margin-bottom: 2px; }
+        .header-info p { font-size: 13px; color: var(--tg-text-muted); }
+        .filter-clear-btn {
+            margin-left: auto; background: #f0f4f9; border: none; padding: 6px 14px;
+            font-size: 13px; color: var(--tg-primary); border-radius: 16px; cursor: pointer; font-weight: 500; display: none;
         }
 
-        #chat-window { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        /* Message Display Logs Feed */
+        #chat-window { flex: 1; padding: 16px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
 
-        /* Messages Setup */
-        .message-wrapper { display: flex; flex-direction: column; max-width: 75%; }
-        .message-wrapper.sent { align-self: flex-end; align-items: flex-end; }
-        .message-wrapper.received { align-self: flex-start; align-items: flex-start; }
+        .msg-bubble-container { display: flex; width: 100%; }
+        .msg-bubble-container.sent { justify-content: flex-end; }
+        .msg-bubble-container.received { justify-content: flex-start; }
 
-        .msg-username { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
-        .message { padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-        
-        .sent .message { background: var(--sent-msg); color: white; border-bottom-right-radius: 2px; }
-        .received .message { background: var(--received-msg); color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid var(--border); }
+        .tg-bubble {
+            padding: 6px 12px 6px 14px; border-radius: 12px; max-width: 65%; font-size: 15px; 
+            line-height: 1.4; word-wrap: break-word; position: relative; display: flex; flex-direction: column;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.07);
+        }
+        .sent .tg-bubble { background: var(--tg-my-bubble); border-top-right-radius: 4px; }
+        .received .tg-bubble { background: var(--tg-other-bubble); border-top-left-radius: 4px; }
 
-        /* Actions area */
-        #input-area { display: flex; border-top: 1px solid var(--border); padding: 16px; background: var(--bg-card); align-items: center; }
-        #user-input { flex: 1; padding: 14px 20px; border: 1px solid var(--border); border-radius: 24px; outline: none; font-size: 14px; background: #f8fafc; }
-        #user-input:focus { border-color: var(--primary); background: #fff; }
-        #send-btn { padding: 12px 24px; background: var(--primary); color: white; border: none; border-radius: 24px; margin-left: 12px; cursor: pointer; font-weight: 600; }
+        .bubble-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; display: block; user-select: none; }
+        /* Dynamic pseudo-random color mapping for standard visual group chats */
+        .color-1 { color: #e53935; } .color-2 { color: #d81b60; } .color-3 { color: #8e24aa; } .color-4 { color: #3949ab; } .color-5 { color: #00897b; }
 
-        /* Mobile View Responsive System toggle */
-        .menu-toggle { display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-main); }
-        
-        @media (max-width: 767px) {
+        .bubble-footer { display: flex; align-items: center; justify-content: flex-end; align-self: flex-end; margin-left: 16px; margin-top: 2px; float: right; margin-bottom: -4px; margin-right: -4px; }
+        .bubble-time { font-size: 11px; color: #a3a7aa; user-select: none; }
+        .sent .bubble-time { color: #629660; }
+        .tg-ticks { font-size: 12px; color: #40a7e3; margin-left: 4px; font-weight: bold; line-height: 1; }
+
+        /* Bottom Chat Action Strip */
+        .input-bar-container { padding: 12px 16px; background: transparent; display: flex; justify-content: center; }
+        .input-pill-wrapper {
+            width: 100%; max-width: 720px; background: #ffffff; border-radius: 24px; padding: 4px 8px 4px 18px;
+            display: flex; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.07); border: 1px solid transparent;
+        }
+        #user-input { flex: 1; border: none; outline: none; font-size: 16px; padding: 10px 0; max-height: 120px; }
+        #send-btn {
+            background: none; border: none; font-size: 15px; font-weight: 600; color: var(--tg-primary);
+            cursor: pointer; padding: 8px 14px; border-radius: 50%; user-select: none;
+        }
+        #send-btn:hover { color: var(--tg-primary-hover); }
+
+        /* ----- MOBILE ADAPTIVE RESPONSIVENESS PARADIGM ----- */
+        @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            .sidebar { position: fixed; left: -300px; top: 0; bottom: 0; z-index: 50; width: 260px; box-shadow: 10px 0 15px rgba(0,0,0,0.05); }
-            .sidebar.open { left: 0; }
+            .sidebar {
+                position: fixed; left: 0; top: 0; bottom: 0; z-index: 50; width: 280px; min-width: 280px;
+                transform: translateX(-100%); box-shadow: 4px 0 16px rgba(0,0,0,0.1);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .tg-bubble { max-width: 85%; }
         }
     </style>
 </head>
@@ -136,31 +169,41 @@
 
     <div id="login-overlay">
         <div class="login-card">
-            <h2>Welcome Back</h2>
-            <p>Pick a custom workspace alias handle to join the dynamic timeline.</p>
-            <input type="text" id="username-input" class="login-input" placeholder="Your Name" autocomplete="off" maxlength="20">
-            <button id="join-btn" class="login-btn">Join Chatroom</button>
+            <div class="login-logo">
+                <svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.17L7.74 12.2 3.64 10.92c-.89-.27-.9-.89.19-1.32L19.93 3.3c.74-.27 1.39.18 1.16 1.19l-2.73 12.83c-.2 1.01-.8 1.26-1.65.78l-4.16-3.07-2.01 1.94c-.22.22-.4.4-.82.4z"/></svg>
+            </div>
+            <h2>Telegram</h2>
+            <p>Please enter your name to connect to the public channel stream setup.</p>
+            <input type="text" id="username-input" class="login-input" placeholder="Your Name" autocomplete="off" maxlength="18">
+            <button id="join-btn" class="login-btn">Start Messaging</button>
         </div>
     </div>
 
-    <div id="chat-container">
-        <div class="sidebar" id="sidebar-menu">
-            <div class="search-box-wrapper">
-                <input type="text" id="search-users" class="search-input" placeholder="Search user history...">
+    <div id="tg-layout">
+        <div class="sidebar" id="tg-sidebar">
+            <div class="search-bar-container">
+                <input type="text" id="search-users" class="search-input" placeholder="Search">
             </div>
-            <div class="user-list-wrapper" id="user-list"></div>
+            <div class="user-list" id="user-list"></div>
         </div>
 
-        <div class="chat-main">
+        <div class="chat-view">
             <div class="chat-header">
                 <button class="menu-toggle" id="menu-btn">☰</button>
-                <h3 id="room-title"># global-timeline</h3>
-                <span class="filter-badge" id="clear-filter-btn">Show All Messages</span>
+                <div class="header-info">
+                    <h3 id="room-title">Global Chat Room</h3>
+                    <p id="room-subtitle">loading members...</p>
+                </div>
+                <button class="filter-clear-btn" id="clear-filter-btn">Show All</button>
             </div>
+
             <div id="chat-window"></div>
-            <div id="input-area">
-                <input type="text" id="user-input" placeholder="Write your message..." autocomplete="off">
-                <button id="send-btn">Send</button>
+
+            <div class="input-bar-container">
+                <div class="input-pill-wrapper">
+                    <input type="text" id="user-input" placeholder="Message" autocomplete="off">
+                    <button id="send-btn">SEND</button>
+                </div>
             </div>
         </div>
     </div>
@@ -169,11 +212,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyCDEwEwr6QbNIArFm4sGThxq4scpqDbbnE",
-        databaseURL: "https://keabi-800a6-default-rtdb.firebaseio.com",
-        projectId: "keabi-800a6",
-      };
+        // 1. Assign Your Unique Application Key Framework Config String Objects Below
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID"
+        };
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -188,80 +232,113 @@
         const searchUsers = document.getElementById('search-users');
         const userListContainer = document.getElementById('user-list');
         const roomTitle = document.getElementById('room-title');
+        const roomSubtitle = document.getElementById('room-subtitle');
         const clearFilterBtn = document.getElementById('clear-filter-btn');
         const menuBtn = document.getElementById('menu-btn');
-        const sidebarMenu = document.getElementById('sidebar-menu');
+        const tgSidebar = document.getElementById('tg-sidebar');
 
         let myUsername = "";
         let trackedUsersSet = new Set(); 
         let allMessagesArray = []; 
-        let selectedUserFilter = ""; // Tracks filtering by clicked user
+        let selectedUserFilter = ""; 
 
-        // Check LocalStorage on boot to skip prompt if match exists
+        // Local Storage Session Caching Check
         window.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('chat_username');
-            if(savedName) {
-                myUsername = savedName;
+            const cachedHandle = localStorage.getItem('tg_username');
+            if(cachedHandle) {
+                myUsername = cachedHandle;
                 loginOverlay.style.opacity = '0';
                 loginOverlay.style.visibility = 'hidden';
                 userInput.focus();
             }
         });
 
-        function processJoin() {
-            const nameValue = usernameInput.value.trim();
-            if(!nameValue) return alert("Name field cannot be left blank.");
-            
-            myUsername = nameValue;
-            localStorage.setItem('chat_username', nameValue); // Set memory token
-            
+        function performJoinHandshake() {
+            const rawName = usernameInput.value.trim();
+            if(!rawName) return alert("Please enter a username to proceed.");
+            myUsername = rawName;
+            localStorage.setItem('tg_username', rawName);
             loginOverlay.style.opacity = '0';
-            setTimeout(() => loginOverlay.style.visibility = 'hidden', 300);
+            setTimeout(() => loginOverlay.style.visibility = 'hidden', 250);
             userInput.focus();
         }
 
-        joinBtn.addEventListener('click', processJoin);
-        usernameInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') processJoin(); });
+        joinBtn.addEventListener('click', performJoinHandshake);
+        usernameInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') performJoinHandshake(); });
 
-        // Responsive Sidebar Drawer Toggle for Mobile
-        menuBtn.addEventListener('click', () => sidebarMenu.classList.toggle('open'));
+        // Responsive Sidebar Drawer Trigger Event Toggle
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tgSidebar.classList.toggle('open');
+        });
+        document.addEventListener('click', () => tgSidebar.classList.remove('open'));
+        tgSidebar.addEventListener('click', (e) => e.stopPropagation());
 
-        // Core visual calculation router
+        // Dynamic Color Index Assignment Generator Function
+        function getUserColorClass(name) {
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const index = Math.abs(hash % 5) + 1;
+            return `color-${index}`;
+        }
+
+        // Render Chat History Chronologically
         function renderChatWindow() {
             chatWindow.innerHTML = "";
             allMessagesArray.sort((a, b) => a.timestamp - b.timestamp);
 
             allMessagesArray.forEach(data => {
-                // If a filter is active, skip all other users' messages
                 if (selectedUserFilter && data.username.toLowerCase() !== selectedUserFilter.toLowerCase()) return;
 
-                const wrapper = document.createElement('div');
-                wrapper.classList.add('message-wrapper');
+                const container = document.createElement('div');
+                container.classList.add('msg-bubble-container');
                 
-                if (data.username === myUsername) {
-                    wrapper.classList.add('sent');
-                    wrapper.innerHTML = `<div class="message">${escapeHTML(data.text)}</div>`;
+                const isMe = data.username === myUsername;
+                container.classList.add(isMe ? 'sent' : 'received');
+
+                const timeString = new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+                let innerContent = "";
+                if (isMe) {
+                    innerContent = `
+                        <div class="tg-bubble">
+                            <span>${escapeHTML(data.text)}</span>
+                            <div class="bubble-footer">
+                                <span class="bubble-time">${timeString}</span>
+                                <span class="tg-ticks">✓✓</span>
+                            </div>
+                        </div>`;
                 } else {
-                    wrapper.classList.add('received');
-                    wrapper.innerHTML = `
-                        <span class="msg-username">${escapeHTML(data.username)}</span>
-                        <div class="message">${escapeHTML(data.text)}</div>
-                    `;
+                    innerContent = `
+                        <div class="tg-bubble">
+                            <span class="bubble-name ${getUserColorClass(data.username)}">${escapeHTML(data.username)}</span>
+                            <span>${escapeHTML(data.text)}</span>
+                            <div class="bubble-footer">
+                                <span class="bubble-time">${timeString}</span>
+                            </div>
+                        </div>`;
                 }
-                chatWindow.appendChild(wrapper);
+
+                container.innerHTML = innerContent;
+                chatWindow.appendChild(container);
             });
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
-        function updateSidebarUserTracking(newName) {
-            if(!newName || trackedUsersSet.has(newName)) return;
-            trackedUsersSet.add(newName);
+        function updateSidebarUsersList(name) {
+            if(!name || trackedUsersSet.has(name)) return;
+            trackedUsersSet.add(name);
             renderUserList(searchUsers.value);
         }
 
         function renderUserList(filterText = "") {
             userListContainer.innerHTML = "";
             const cleanFilter = filterText.toLowerCase().trim();
+
+            // Setup Room Header Counters 
+            roomSubtitle.textContent = `${trackedUsersSet.size} members`;
 
             trackedUsersSet.forEach(user => {
                 if(cleanFilter && !user.toLowerCase().includes(cleanFilter)) return;
@@ -271,18 +348,21 @@
                 if (selectedUserFilter && user.toLowerCase() === selectedUserFilter.toLowerCase()) {
                     userRow.classList.add('active');
                 }
-                
+
                 userRow.innerHTML = `
-                    <div class="user-avatar">${user.charAt(0).toUpperCase()}</div>
-                    <span>${escapeHTML(user)}</span>
+                    <div class="user-avatar" style="background-color: ${stringToColor(user)}">${user.charAt(0).toUpperCase()}</div>
+                    <div class="user-info">
+                        <span class="name">${escapeHTML(user)}</span>
+                        <span class="subtext">click to view history</span>
+                    </div>
                 `;
 
-                // Handle selecting user from list to look up specific messages
+                // Handle clicking a user card to view only their messages
                 userRow.addEventListener('click', () => {
                     selectedUserFilter = user;
-                    roomTitle.textContent = `Viewing: @${user}`;
+                    roomTitle.textContent = `Messages from ${user}`;
                     clearFilterBtn.style.display = 'block';
-                    sidebarMenu.classList.remove('open'); // close on mobile drawer view
+                    tgSidebar.classList.remove('open');
                     renderUserList(searchUsers.value);
                     renderChatWindow();
                 });
@@ -291,30 +371,16 @@
             });
         }
 
-        // Reset Filter View Action Handler
         clearFilterBtn.addEventListener('click', () => {
             selectedUserFilter = "";
-            roomTitle.textContent = "# global-timeline";
+            roomTitle.textContent = "Global Chat Room";
             clearFilterBtn.style.display = 'none';
             renderUserList(searchUsers.value);
             renderChatWindow();
         });
 
-        // Firebase Sync Engine Pipe Hooks
-        messagesRef.limitToLast(150).on('child_added', (snapshot) => {
-            const data = snapshot.val();
-            if(data && data.username && data.text) {
-                updateSidebarUserTracking(data.username);
-                allMessagesArray.push({
-                    username: data.username,
-                    text: data.text,
-                    timestamp: data.timestamp || Date.now()
-                });
-                renderChatWindow();
-            }
-        });
-
-        function sendMessage() {
+        // Outbound Message Send Action Dispatcher
+        function transmitMessage() {
             const text = userInput.value.trim();
             if (!text || !myUsername) return;
 
@@ -326,12 +392,37 @@
             userInput.value = '';
         }
 
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+        sendBtn.addEventListener('click', transmitMessage);
+        userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') transmitMessage(); });
         searchUsers.addEventListener('input', (e) => renderUserList(e.target.value));
 
+        // Realtime Stream Listener Pipe Hooks
+        messagesRef.limitToLast(200).on('child_added', (snapshot) => {
+            const data = snapshot.val();
+            if(data && data.username && data.text) {
+                updateSidebarUsersList(data.username);
+                allMessagesArray.push({
+                    username: data.username,
+                    text: data.text,
+                    timestamp: data.timestamp || Date.now()
+                });
+                renderChatWindow();
+            }
+        });
+
+        // XSS Defense Sanitization
         function escapeHTML(str) {
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Avatar color generation matching beautiful UI styles
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const colors = ['#2ec4b6', '#e71d36', '#ff9f1c', '#00b4d8', '#9d4edd', '#ff007f', '#4ea8de'];
+            return colors[Math.abs(hash % colors.length)];
         }
     </script>
 </body>
